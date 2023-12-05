@@ -8,8 +8,11 @@ function performOCR($imagePath)
     // Specify the path to the Tesseract executable
     $tesseractExecutable = 'C:\xampp\htdocs\pdf-gpt-master\Tesseract-OCR\tesseract.exe';
 
-    // Output file path for the OCR result
-    $outputFile = 'output';
+    // Generate a timestamp to append to the output file name
+    $timestamp = date("Ymd_His");
+
+    // Output file path for the OCR result with timestamp
+    $outputFile = 'output_' . $timestamp;
 
     // Run Tesseract OCR
     $command = "{$tesseractExecutable} {$imagePath} {$outputFile}  -l osd";
