@@ -4,36 +4,44 @@ require "ChatGPT.php";
 require "DataBase.php";
 require "PerformOcr.php";
 
-// Specify the folder where your PDF files are located
+// Specify the folder where your PDF files and images are located
 $folderPath = './pdfs';
 $errorFolder = "./error";
 $archiveFolder = "./archive";
 
-// Get all PDF files in the specified folder
+// Get all PDF files and image files in the specified folder
 $files = glob("{$folderPath}/*.{pdf,png,jpg,jpeg}", GLOB_BRACE);
 
-$api_key = "";
+$api_key = "sk-";
 
-// Process each PDF file in the folder
+// Process each file in the folder
 foreach ($files as $file) {
     // Determine the file type
     $fileExtension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
 
     // Initialize variables for the results
     $textFromFile = null;
+    
     // Check the file type and perform appropriate actions
     switch ($fileExtension) {
         case 'pdf':
-            // Extract text from PDF
-            $textFromPDF = extractTextFromPDF($file);
-            echo $textFromPDF;
+            if (isValidPDF($file)) {
+                // Extract text from PDF
+                $textFromPDF = extractTextFromPDF($file);
+                if (!empty($textFromPDF)) {
+                    $textFromFile = $textFromPDF;
+                } else {
+                    $textFromFile = null;
+                }
+            } else {
+                break; // Invalid PDF, move to the next file
+            }
             break;
         case 'png':
         case 'jpg':
         case 'jpeg':
             // Perform OCR for image files
             $textFromFile = performOCR($file);
-            echo $textFromFile;
             break;
         default:
             // Handle unsupported file types or log an error
@@ -41,7 +49,7 @@ foreach ($files as $file) {
             break;
     }
 
-    if ($textFromFile != null) {
+    if ($textFromFile !== null) {
         $returnedText = ReqResGPT($api_key, $textFromFile, null);
     } else {
         $returnedText = ReqResGPT($api_key, null, $file);
