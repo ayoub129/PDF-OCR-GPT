@@ -1,0 +1,24 @@
+ME CBC With Diff
+Reported: 7/21/20219:45AM LabName: [x
+
+Status: Final
+
+Test Name Result Flags Reference Range
+WBC 9.5 4.8-10.8 10%3/mm3
+NE% 51.2 41.5-75.0 %
+
+LY% 36.8 13.4-43.5 %
+
+MO% 6.7 5.1-11.8 %
+
+EO% 4.4 0.1-5.1 %
+
+BA% 0.9 0.3-0.9 %
+
+NE# 4.87 1.42-7.27 1043/mm43
+Ly# 3.50* 0.91-3.15 1043/mm43
+MO# 0.64 0.26-0.94 1043/mm43
+EO# 0.42* 0.00-0.35 10“3/mm#
+BA# 0.09* 0.01-0.08 1043/mm3
+
+RBC 4.13 3.88-4.94 1046/mm43
