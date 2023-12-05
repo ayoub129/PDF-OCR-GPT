@@ -20,6 +20,20 @@ function extractTextFromPDF($filename)
         $textContent = null;
     }
 
+    echo $textContent;
+
 
     return $textContent;
+}
+
+// Function to check if a file is a valid PDF
+function isValidPDF($filename)
+{
+    $pdf = new \Smalot\PdfParser\Parser();
+    try {
+        $pdf->parseFile($filename);
+        return true;
+    } catch (\Exception $e) {
+        return false;
+    }
 }
