@@ -35,7 +35,7 @@ foreach ($files as $file) {
                 }
             } else {
                 // Perform OCR for non-searchable PDFs
-                $textFromFile = performOCR($file);
+                $textFromFile = performOCRWithImagick($file);
                 break; // Invalid PDF, move to the next file
             }
             break;
@@ -119,4 +119,47 @@ foreach ($files as $file) {
         rename($file, $errorFilePath);
         echo "you have an error";
     }
+}
+
+// Function to perform OCR for non-searchable PDFs using Imagick
+function performOCRWithImagick($pdfPath)
+{
+    // Output file path for the OCR result with timestamp
+    $outputFile = 'output';
+
+    // Initialize Imagick object
+    $imagick = new Imagick();
+
+    // Set the resolution (adjust as needed)
+    $imagick->setResolution(300, 300);
+
+    // Read the PDF file
+    $imagick->readImage($pdfPath);
+
+    // Convert PDF pages to images
+    $imagick->setImageFormat('png');
+
+    // Loop through each page and perform OCR
+    foreach ($imagick as $pageNumber => $image) {
+        // Set the output file for the current page
+        $pageOutputFile = "{$outputFile}_{$pageNumber}";
+
+        // Run Tesseract OCR on the current page
+        $command = "tesseract {$pageOutputFile}.png {$pageOutputFile} -l ita";
+        shell_exec($command);
+
+        // Read and return the OCR result for the current page
+        $ocrResult = file_get_contents("{$pageOutputFile}.txt");
+        echo $ocrResult;
+
+        // Optionally, you can store or process the OCR result for each page here
+    }
+
+    // Cleanup: Destroy Imagick object
+    $imagick->clear();
+    $imagick->destroy();
+
+    // You might want to concatenate or process the OCR results from all pages
+    // before returning the text
+    return $ocrResult;
 }
