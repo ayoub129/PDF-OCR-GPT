@@ -34,6 +34,8 @@ foreach ($files as $file) {
                     $textFromFile = null;
                 }
             } else {
+                // Perform OCR for non-searchable PDFs
+                $textFromFile = performOCR($file);
                 break; // Invalid PDF, move to the next file
             }
             break;
