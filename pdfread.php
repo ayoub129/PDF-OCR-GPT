@@ -35,7 +35,7 @@ foreach ($files as $file) {
                 }
             } else {
                 // Perform OCR for non-searchable PDFs
-                $textFromFile = performOCRWithImagick($file);
+                // $textFromFile = performOCRWithImagick($file);
                 break; // Invalid PDF, move to the next file
             }
             break;
