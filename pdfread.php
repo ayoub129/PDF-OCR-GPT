@@ -1,3 +1,4 @@
+> Izi Pizi:
 <?php
 require "PDFExtracter.php";
 require "ChatGPT.php";
@@ -12,7 +13,7 @@ $archiveFolder = "./archive";
 // Get all PDF files and image files in the specified folder
 $files = glob("{$folderPath}/*.{pdf,png,jpg,jpeg}", GLOB_BRACE);
 
-$api_key = "sk-";
+$api_key = "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";
 
 // Process each file in the folder
 foreach ($files as $file) {
@@ -107,8 +108,7 @@ foreach ($files as $file) {
         saveToDatabase($newFileName, $desc, $reportNumber, $analyticalNames, $ratings, $analyticalSummary);
 
         echo "Data inserted successfully";
-
-        // Move the processed file to the archive folder
+// Move the processed file to the archive folder
         $archiveFilePath = "{$archiveFolder}/" . basename($newFileName);
         rename($file, $archiveFilePath);
     } else {
@@ -121,45 +121,4 @@ foreach ($files as $file) {
     }
 }
 
-// Function to perform OCR for non-searchable PDFs using Imagick
-function performOCRWithImagick($pdfPath)
-{
-    // Output file path for the OCR result with timestamp
-    $outputFile = 'output';
 
-    // Initialize Imagick object
-    $imagick = new Imagick();
-
-    // Set the resolution (adjust as needed)
-    $imagick->setResolution(300, 300);
-
-    // Read the PDF file
-    $imagick->readImage($pdfPath);
-
-    // Convert PDF pages to images
-    $imagick->setImageFormat('png');
-
-    // Loop through each page and perform OCR
-    foreach ($imagick as $pageNumber => $image) {
-        // Set the output file for the current page
-        $pageOutputFile = "{$outputFile}_{$pageNumber}";
-
-        // Run Tesseract OCR on the current page
-        $command = "tesseract {$pageOutputFile}.png {$pageOutputFile} -l ita";
-        shell_exec($command);
-
-        // Read and return the OCR result for the current page
-        $ocrResult = file_get_contents("{$pageOutputFile}.txt");
-        echo $ocrResult;
-
-        // Optionally, you can store or process the OCR result for each page here
-    }
-
-    // Cleanup: Destroy Imagick object
-    $imagick->clear();
-    $imagick->destroy();
-
-    // You might want to concatenate or process the OCR results from all pages
-    // before returning the text
-    return $ocrResult;
-}
