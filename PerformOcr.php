@@ -7,7 +7,7 @@ function performOCR($imagePath)
 {
 
     // Specify the path to the Tesseract executable
-    $tesseractExecutable = 'C:\xampp\htdocs\PDF-OCR-GPT\Tesseract-OCR\tesseract.exe';
+    $tesseractExecutable = __DIR__ . 'Tesseract-OCR\tesseract.exe';
 
     // Output file path for the OCR result with timestamp
     $outputFile = 'output';
