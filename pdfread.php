@@ -1,4 +1,3 @@
-> Izi Pizi:
 <?php
 require "PDFExtracter.php";
 require "ChatGPT.php";
