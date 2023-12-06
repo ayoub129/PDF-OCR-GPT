@@ -13,7 +13,7 @@ $archiveFolder = "./archive";
 // Get all PDF files and image files in the specified folder
 $files = glob("{$folderPath}/*.{pdf,png,jpg,jpeg}", GLOB_BRACE);
 
-$api_key = "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";
+$api_key = "sk-";
 
 // Process each file in the folder
 foreach ($files as $file) {
